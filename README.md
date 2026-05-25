@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Decision Compass
 
-## Getting Started
+A lightweight MVP that helps you think through tough decisions. Describe what you're weighing, and an AI thinking partner streams back structured reflection: situation summary, pros, cons, questions to sit with, and a gentle nudge—not a verdict.
 
-First, run the development server:
+Built for the **Rapid MVP** challenge (Node.js stack).
+
+## Quick start
+
+**Requirements:** Node.js 20+, an [OpenAI API key](https://platform.openai.com/api-keys)
 
 ```bash
+npm install
+cp .env.example .env.local
+# Edit .env.local and set OPENAI_API_KEY=sk-...
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000), describe a decision, and hit **Find my bearings**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `OPENAI_API_KEY` | Yes | — | OpenAI API key |
+| `OPENAI_MODEL` | No | `gpt-4o-mini` | Model used for analysis |
 
-## Learn More
+## Deploy (live URL)
 
-To learn more about Next.js, take a look at the following resources:
+Works on [Vercel](https://vercel.com) out of the box:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push this repo to GitHub
+2. Import the project in Vercel
+3. Add `OPENAI_API_KEY` in Project → Settings → Environment Variables
+4. Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Product notes
 
-## Deploy on Vercel
+- **Empty state:** Example dilemmas you can click to pre-fill the textarea
+- **Loading:** Spinner + skeleton section cards while waiting for first tokens
+- **Streaming:** Analysis appears section-by-section as the model writes
+- **Done state:** Disclaimer that this is a thinking tool, not professional advice
+- **Errors:** Clear messages (missing API key, validation) with retry
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org) 16 (App Router)
+- [React](https://react.dev) 19
+- [Tailwind CSS](https://tailwindcss.com) 4
+- [OpenAI](https://github.com/openai/openai-node) streaming API
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run start` | Run production server |
+| `npm run lint` | ESLint |
