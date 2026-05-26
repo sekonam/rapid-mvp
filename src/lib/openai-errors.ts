@@ -3,7 +3,7 @@ import OpenAI from "openai";
 export function openAiErrorMessage(err: unknown): string {
   if (err instanceof OpenAI.APIError) {
     const code = err.code ?? err.error?.code;
-    if (code === "insufficient_quota" || err.status === 429) {
+    if (code === "insufficient_quota") {
       return "Your OpenAI account has no remaining quota. Add billing or credits at platform.openai.com/account/billing, then try again.";
     }
     if (err.status === 401) {
