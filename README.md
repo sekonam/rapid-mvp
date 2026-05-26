@@ -18,6 +18,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000), describe a decision, and hit **Find my bearings**.
 
+## Troubleshooting
+
+**429 / `insufficient_quota`:** Your API key is valid but the OpenAI account has no credits or billing. This is not an app bug. Fix it at [OpenAI billing](https://platform.openai.com/account/billing) (add a payment method or prepaid credits), or use a key from an account with quota.
+
 ## Environment variables
 
 | Variable | Required | Default | Description |

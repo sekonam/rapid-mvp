@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { openAiErrorMessage } from "@/lib/openai-errors";
 import { SYSTEM_PROMPT } from "@/lib/prompt";
 
 export const runtime = "nodejs";
@@ -36,18 +37,28 @@ export async function POST(request: Request) {
 
   const openai = new OpenAI({ apiKey });
 
-  const stream = await openai.chat.completions.create({
-    model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
-    stream: true,
-    temperature: 0.7,
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      {
-        role: "user",
-        content: `Here's the decision I'm facing:\n\n${dilemma}`,
-      },
-    ],
-  });
+  let stream;
+  try {
+    stream = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
+      stream: true,
+      temperature: 0.7,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        {
+          role: "user",
+          content: `Here's the decision I'm facing:\n\n${dilemma}`,
+        },
+      ],
+    });
+  } catch (err) {
+    const httpStatus =
+      err instanceof OpenAI.APIError && err.status ? err.status : 502;
+    return Response.json(
+      { error: openAiErrorMessage(err) },
+      { status: httpStatus }
+    );
+  }
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream({
